@@ -1,22 +1,19 @@
 package com.zpaas.db.sequence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
-import net.sf.json.JSONObject;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.zpaas.ConfigurationCenter;
 import com.zpaas.ConfigurationWatcher;
 import com.zpaas.PaasException;
 import com.zpaas.utils.CipherUtil;
+import net.sf.json.JSONObject;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
@@ -67,10 +64,10 @@ public class SequenceServiceImpl implements ConfigurationWatcher,SequenceService
 					e.printStackTrace();
 				}
 				if(sqlUpdate  == null || sqlUpdate.length() == 0) {
-					sqlUpdate = "update " + sequenceTable + " set value=? where name = ?";
+					sqlUpdate = "update " + sequenceTable + " set value= value  + ? where name = ?";
 				}
 				ps = conn.prepareStatement(sqlUpdate);
-				ps.setLong(1, currVal + range);
+				ps.setLong(1, range);
 				ps.setString(2, sequenceName);
 				int ret = ps.executeUpdate();
 				conn.commit();
